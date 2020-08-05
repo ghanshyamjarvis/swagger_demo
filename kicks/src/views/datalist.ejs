@@ -1,0 +1,39 @@
+<html>
+ <head>
+    <title>User List</title>
+ </head>
+   <body> 
+      <table border="1">
+          <th>account_id</th>
+          <th>FirstName</th> 
+          <th>Lastname</th>
+          <th>Email</th>
+          <th>Password</th>
+          <th>verificationCode</th>
+          <th>is_verify</th>
+           <th> Update </th>
+           <th> Delete </th>
+           <th> Verify User </th>
+
+
+          <tr><% results.forEach(function(value) { %></tr>
+                <td><%= value.account_id %></td>
+                <td><%= value.firstname %></td>
+                <td><%= value.lastname %></td> 
+                <td><%= value.email %></td> 
+                <td><%= value.password %></td> 
+                <td><%= value.verificationCode %></td> 
+                <td><%= value.is_verify %></td> 
+                <td><a href="/user/update?id=<%= value.account_id %>"> Update</a></td>
+                <td><a href="/user/delete?id=<%= value.account_id %>"> Delete</a></td>
+                <td>
+                  <form action="/user/accountActivate?verificationCode=<%= value.verificationCode %>" method="post">
+                    <button type="submit">Verify User</button>
+                  </form>
+                </td>
+              <% }); %>
+            
+       </table>
+        
+   </body>
+</html>

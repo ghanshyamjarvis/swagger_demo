@@ -1,0 +1,45 @@
+<html>
+<head>
+  <title>Update Data</title>
+  <style>
+  </style>
+</head>
+<body>
+
+<h1>Update user</h1>
+<form method="post" action="update?id=<%= results.account_id %>" >
+
+  Account_ID:<input type="text" name="account_id" value="<%= results.account_id %>"> <br>
+
+  First name:<input type="text" name="firstname" value="<%= results.firstname %>"> <br>
+  <% if(typeof errors !='undefined' && errors.firstname) { %>
+	 <%= errors.firstname %>
+  <% } %>
+  <br>
+  
+  Last name:<input type="text" name="lastname" value="<%= results.lastname %>"> <br>
+  <% if(typeof errors !='undefined' && errors.lastname) { %>
+  	<%= errors.lastname %>
+  <% } %>
+  <br>
+
+  Email:<input type="text" name="email" value="<%= results.email %>"> <br>
+  <% if(typeof errors !='undefined' && errors.email) { %>
+	  <%= errors.email %>
+  <% } %>
+  <br>
+
+  <% if (typeof errorMessage !='undefined') { %>
+		<p><%= errorMessage %></p>
+	<%} %>
+
+    Password:<input type="password" name="password" value="<%= results.account_id %>"> <br>
+    <% if(typeof errors !='undefined' && errors.password) { %>
+    	<%= errors.password %>
+    <% } %>
+    <br>
+
+  <button type="submit">Save</button>
+</form>
+</body>
+</html>
