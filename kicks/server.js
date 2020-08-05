@@ -32,7 +32,6 @@ let options = {
 expressSwagger(options)
 
 
-
 const  server = app.listen(port,function () {
   console.log("Connected At " + port);
 });
