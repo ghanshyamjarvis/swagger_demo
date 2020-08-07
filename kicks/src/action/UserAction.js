@@ -14,7 +14,7 @@ module.exports= {
   },
 
   getUserid: function (req, res) {
-    const {id}= req.query
+    const {id}= req.params
     UserModel.getRecordById(id).then(async (data) => {
       res.json({status: true, data: data, message: "shows all record"})
     })

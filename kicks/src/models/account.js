@@ -8,6 +8,7 @@
       return new Promise((resolve) => {
         const sql = 'select * from account';
         connection.query(sql, (error, data) => {
+          
           resolve((error) ? [] : (data == null) ? [] : data);
         })
       })

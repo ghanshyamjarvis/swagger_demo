@@ -25,12 +25,16 @@ const swaggerOptions = {
   swaggerDefinition: {
     info: {
       version: "1.0.0",
-      title: "Customer API",
-      description: "Customer API Information",
+      title: "API",
+      description: "API Information",
       contact: {
         name: "Developer"
       },
-      host: ["http://127.0.0.1:5000"]
+      host: "http://127.0.0.1:5000" ,
+      produces: [
+      "application/json"
+      ],
+      
     }
   },
   // ['.routes/*.js']
