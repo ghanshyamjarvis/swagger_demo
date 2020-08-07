@@ -23,9 +23,8 @@ module.exports= {
 
   signUp: function (req, res) {
     const {email} = req.body;
-    UserModel.findByEmail(email).then((findRes) => {
-     if (Object.keys(findRes).length > 0){
-
+    const emailFindRes = UserModel.findByEmail(email);
+    if (Object.keys(emailFindRes).length > 0){
       res.json({status:false, message:"Email Already Exits"})
     }else {
       const {firstname, lastname,email, password} = req.body;
@@ -36,16 +35,12 @@ module.exports= {
          email: data.email,
        }
        await userEmail.activationsMail(mailData).then(async (emailRes) => {
-         res.json({status: true, message: 'Sign up success! Please verify your account!'
-       });
+         res.json({status: true, message: 'Sign up success! Please check email to verify account!'});
        })
      })
     }
-  })
-   
-      res.json({status: false, message: 'Sign up failed!'})
-   
   },
+
 
   userLogin: async function (req, res) {
     const {email, password} = req.body;
@@ -70,30 +65,16 @@ module.exports= {
   },
 
   accountActivate: function (req,res) {
-   const {verificationCode} = req.params;
-   UserModel.findByverificationCode(verificationCode).then((findRes) => {
-    UserModel.updateAccountVerify(1,verificationCode).then(async (userResponse) => {
-      res.json({status: true, message: 'Account Activated Successfully'});
+    const {verificationCode} = req.query;
+    UserModel.findByverificationCode(verificationCode).then((findRes) => {
+      UserModel.updateAccountVerify(1,verificationCode).then(async (userResponse) => {
+        res.json({status: true, message: 'Account Activated Successfully'});
+      })
     })
-  })
- },
+  },
 
- updateProfile: function (req, res) {
-   const {firstname, lastname, email, password} = req.body;
-   const data = {firstname, lastname, email, password}
-   console.log(req.user.finRes.account_id)
-   UserModel.update(req.user.finRes.account_id, data).then(async (updatedres) => {
-    if (Object.keys(updatedres).length > 0) {
-      res.json({status: true, message: 'Profile Updated Successfully'});
-    } else {
-      res.json({status: false, message: 'fail to update'})
-    }
-  })
- },
-
-
- changePassword: async function (req, res) {
-  const {oldPassword, newPassword, confirmNewPassword} = req.body;
+  changePassword: async function (req, res) {
+    const {oldPassword, newPassword, confirmNewPassword} = req.body;
     //console.log(req.user.finRes.account_id)
     const userRes = await UserModel.findById(req.user.finRes.account_id);
     //console.log(userRes.password)
@@ -120,25 +101,39 @@ module.exports= {
   },
 
 
-  forgetPassword: async function (req, res) {
+  updateProfile: function (req, res) {
+   const {firstname, lastname, email, password} = req.body;
+   const data = {firstname, lastname, email, password}
+   //console.log(req.user.finRes.account_id)
+   UserModel.update(req.user.finRes.account_id, data).then(async (updatedres) => {
+    if (Object.keys(updatedres).length > 0) {
+      res.json({status: true, message: 'Profile Updated Successfully'});
+    } else {
+      res.json({status: false, message: 'fail to update'})
+    }
+  })
+ },
+
+
+ forgetPassword: async function (req, res) {
    const {email} = req.body;
    const emailRes = await UserModel.findByemail(email);
    if (Object.keys(emailRes).length > 0) {
     const data = {email, verificationCode : randToken.generate(10)};
     const mailData = {
-     code: data.verificationCode,
-     email: data.email,
-   }
-   UserModel.updateverificationCodebyEmail(data.verificationCode, data.email).then(async (userResponse) => {
-    userEmail.activationsMail(mailData).then(async (emailRes) => {
-     res.json({status: true, message: 'Check Your Email reset Password!'
-   });
-   })
-  })
- } else {
+      code: data.verificationCode,
+      email: data.email,
+    } 
+    UserModel.updateverificationCodebyEmail(data.verificationCode, data.email).then(async (userResponse) => {
+      userEmail.activationsMail(mailData).then(async (emailRes) => {
+        res.json({status: true, message: 'Check your email to reset password!'});
+      })
+    })
+  }else {
    res.json({status: false, message: 'Email Not Exits'})
- }
+  }
 },
+
 
 resetPassword: async function (req,res) {
   const {verificationCode} = req.params;
@@ -156,5 +151,4 @@ resetPassword: async function (req,res) {
    res.json({status: false, message: 'data not match'});
  }
 }
-
 }

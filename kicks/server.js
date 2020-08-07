@@ -1,5 +1,5 @@
 const app = require('./src/app');
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 const expressSwagger = require('express-swagger-generator')(app);
 
 
@@ -10,7 +10,7 @@ var options = {
             title: 'Swagger Demo',
             version: '1.0.0',
         },
-        host: '127.0.0.1:3000',
+        host: '127.0.0.1:5000',
         basePath: '/',
         produces: [
             "application/json"
@@ -28,6 +28,7 @@ var options = {
     
     basedir: __dirname, //app absolute path
     files: ['./src/swaggerroute/**/*.js'] //Path to the API handle folder
+    //files: ['./src/controllers/*.js'] //Path to the API handle folder
 };
 
 expressSwagger(options)

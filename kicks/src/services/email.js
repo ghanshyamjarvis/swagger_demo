@@ -14,7 +14,7 @@ module.exports = {
 
     //console.log(data.code)
     return new Promise((resolve) => {
-      const link = 'http://localhost:3000' + '/accountActivate?token=' + data.code;
+      const link = 'http://127.0.0.1:5000' + '/accountActivate?verificationCode=' + data.code;
 
 
       const mailOptions = {
